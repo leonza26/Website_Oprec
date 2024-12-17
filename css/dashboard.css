@@ -1,0 +1,37 @@
+nav {
+    background-color: #db881a;
+    color: white;
+}
+
+.footer{
+    background-color: white;
+    color: black;
+}
+
+
+.navbar-brand {
+    color: white;
+}
+
+.navbar-nav .nav-link {
+    color: white;
+  }
+
+p {
+    line-height: 2;
+    text-align: justify;
+    text-indent: 3em;
+    font-size: large;
+    
+  }
+
+.contenttree {
+    background-color: #db881a;
+  }
+
+.harvel {
+  margin-top: 100px;
+}
+
+
+
