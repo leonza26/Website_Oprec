@@ -1,3 +1,14 @@
+<?php
+
+require "../functions.php";
+
+$daftar_cabang = query("SELECT * FROM tb_daftar_cabang");
+
+
+
+?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -85,27 +96,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                    <td>@mdo</td>
-                    </tr>
+                    <?php $i = 1 ?>
+                    <?php foreach($daftar_cabang  as $dc) : ?>
+                        <tr>
+                        <th scope="row"><?= $i ?></th>
+                        <td><?= $dc["cabang"] ?></td>
+                        <td><?= $dc["kota"] ?></td>
+                        <td><?= $dc["alamat"] ?></td>
+                        <td><?= $dc["contact_person"] ?></td>
+                        </tr>
+                    <?php $i++ ?>
+                    <?php endforeach; ?>
                 </tbody>
                 </table>
 

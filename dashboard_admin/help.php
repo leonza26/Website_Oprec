@@ -1,3 +1,14 @@
+<?php 
+
+require "../functions.php";
+
+
+$bantuan = query("SELECT * FROM tb_bantuan");
+
+
+?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -85,21 +96,17 @@
                     </tr>
                 </thead>
                 <tbody>
+
+                <?php $i = 1 ?>
+                <?php foreach($bantuan  as $help) : ?>
                     <tr>
-                    <th scope="row-2">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
+                    <th scope="row"><?= $i ?></th>
+                    <td><?= $help["email"] ?></td>
+                    <td><?= $help["pesan"] ?></td>
                     </tr>
-                    <tr>
-                    <th scope="row-5">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    </tr>
-                    <tr>
-                    <th scope="row-5">3</th>
-                    <td>Larry the Bird</td>
-                    <td>@twitter</td>
-                    </tr>
+                <?php $i++ ?>
+                <?php endforeach; ?>
+
                 </tbody>
                 </table>
             </div>

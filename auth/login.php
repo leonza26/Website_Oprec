@@ -1,3 +1,43 @@
+<?php 
+sleep(1);
+require "../functions.php";
+
+
+
+// cek apakah data berhasil masuk setelah login di tekan
+if ( isset($_POST["login"])){
+
+  // mengambil inputan form
+  $username = $_POST["username"];
+  $password = $_POST["password"];
+  
+  $result = mysqli_query($conn, "SELECT * FROM tb_users WHERE 
+  username = '$username'");
+
+  // cek username 
+  if( mysqli_num_rows($result) === 1 ) {
+
+      // cek password
+      $row = mysqli_fetch_assoc($result);
+
+      if( password_verify($password, $row["password"]) ){
+
+          header("Location: ../dashboard_user/profil_user.php");
+          exit;
+
+      }
+  }
+
+  $error = true;
+
+}
+
+
+
+
+?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -21,27 +61,34 @@
         <div class="col-md mb-5 ms-3">
             <h2 class="text-center mt-4">Recruitment<br>Adidaya Group</h2>
             <p class="text-center" style="text-indent: 0;">Silakan masukkan data untuk masuk ke akun Anda</p>
-              <label for="inputUsername" class="form-label">Username</label>
-              <input type="text" name="username" autocomplete="off" id="inputUsername" placeholder="Masukkan Username Anda" class="form-control">
-          
 
-              <label for="inputPassword5" class="form-label mt-3">Password</label>
-              <input type="password" id="inputPassword5" name="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Masukkan Kata Sandi Anda">
-              <div id="passwordHelpBlock" class="form-text mt-3">
-                Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-                <br>
-                <br>
-                Belum Punya Akun? <a href="../auth/register.php">Register</a>
-              </div>
+          <?php if(isset($error)) : ?>
+              <p style="color: red; font-style: italic; text-indent: 0;">username atau password salah!</p>
+              <?php endif; ?>
 
-              <div class="form-check mt-2">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                  Remember Me
-                </label>
-              </div>
+              <form action="" method="POST">
+                  <label for="inputUsername" class="form-label">Username</label>
+                  <input type="text" name="username" autocomplete="off" id="inputUsername" placeholder="Masukkan Username Anda" class="form-control">
               
-              <button type="button" class="container btn btn-dark mt-4">Login</button>
+
+                  <label for="inputPassword5" class="form-label mt-3">Password</label>
+                  <input type="password" id="inputPassword5" name="password" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Masukkan Kata Sandi Anda">
+                  <div id="passwordHelpBlock" class="form-text mt-3">
+                    Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                    <br>
+                    <br>
+                    Belum Punya Akun? <a href="../auth/register.php">Register</a>
+                  </div>
+
+                  <div class="form-check mt-2">
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                      Remember Me
+                    </label>
+                  </div>
+                  
+                  <button type="submit" name="login" class="container btn btn-dark mt-4">Login</button>
+              </form>
               </div>
     </div>
 </div>

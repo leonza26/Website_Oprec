@@ -1,3 +1,18 @@
+<?php
+
+require "../functions.php";
+
+
+$pendaftar_lamaran = query("SELECT * FROM tb_form_pendaftaran");
+
+
+
+
+?>
+
+
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -74,45 +89,76 @@
                         </form>
                     </div>
                 </div>
-                <table class="table table-hover table-bordered my-5 ">
-                <thead>
-                    <tr>
-                    <th scope="col">No</th>
-                    <th scope="col">Nama Pelamar</th>
-                    <th scope="col">Alamat Email</th>
-                    <th scope="col">Status Pekerjaan </th>
-                    <th scope="col">Berkas</th>
-                    <th scope="col">Aksi</th>
-                    
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
-                    </tr>
-                </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered my-5 " style="text-align: center; vertical-align: top; height: 50px;">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Nama Lengkap</th>
+                            <th scope="col">Alamat Email</th>
+                            <th scope="col">Tempat & Tanggal Lahir</th>
+                            <th scope="col">Tinggi Badan</th>
+                            <th scope="col">Berat Badan</th>
+                            <th scope="col">Jenis Kelamin</th>
+                            <th scope="col">Usia</th>
+                            <th scope="col">Golongan Darah</th>
+                            <th scope="col">No HP</th>
+                            <th scope="col">Status Pekerjaan</th>
+                            <th scope="col">Posisi Dilamar</th>
+                            <th scope="col">Alamat</th>
+                            <th scope="col">NIK</th>
+                            <th scope="col">Tamatan</th>
+                            <th scope="col">Universitas/Sekolah</th>
+                            <th scope="col">Jurusan</th>
+                            <th scope="col">BPJS</th>
+                            <th scope="col">Npwp</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Surat Lamaran</th>
+                            <th scope="col">CV</th>
+                            <th scope="col">Ijazah</th>
+                            <th scope="col">Transkrip Nilai</th>
+                            <th scope="col">Pas Photo</th>
+                            <th scope="col">Sertifikat Keahlian</th>
+                            <th scope="col">KTP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php $i = 1 ?>
+                    <?php foreach($pendaftar_lamaran  as $pl) : ?>
+                        <tr>
+                        <th scope="row"><?= $i ?></th>
+                        <td><?= $pl["nama_lengkap"]?></td>
+                        <td><?= $pl["alamat_email"]?></td>
+                        <td><?= $pl["tempat_tanggallahir"] ?></td>
+                        <td><?= $pl["tinggi_badan"]?></td>
+                        <td><?= $pl["berat_badan"]?></td>
+                        <td><?= $pl["jenis_kelamin"]?></td>
+                        <td><?= $pl["usia"]?></td>
+                        <td><?= $pl["golongan_darah"]?></td>
+                        <td><?= $pl["no_hp"]?></td>
+                        <td><?= $pl["status_pekerjaan"]?></td>
+                        <td><?= $pl["posisi_dilamar"]?></td>
+                        <td><?= $pl["alamat"]?></td>
+                        <td><?= $pl["nik"]?></td>
+                        <td><?= $pl["tamatan"]?></td>
+                        <td><?= $pl["universitas/sekolah"]?></td>
+                        <td><?= $pl["jurusan"]?></td>
+                        <td><?= $pl["bpjs"]?></td>
+                        <td><?= $pl["npwp"]?></td>
+                        <td><?= $pl["status"]?></td>
+                        <td><?= $pl["surat_lamaran"]?></td>
+                        <td><?= $pl["cv"]?></td>
+                        <td><?= $pl["ijazah"]?></td>
+                        <td><?= $pl["transkrip_nilai"]?></td>
+                        <td><?= $pl["pas_foto"]?></td>
+                        <td><?= $pl["sertifikat_keahlian"]?></td>
+                        <td><?= $pl["ktp"]?></td>
+                        </tr>
+                    <?php $i++ ?>
+                    <?php endforeach; ?>
+                    </tbody>
+                    </table>
+                </div>
             </div>
 
               <!-- footer -->

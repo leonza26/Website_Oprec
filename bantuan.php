@@ -10,7 +10,7 @@ if( isset($_POST["submit"])){
    if ( bantuan($_POST) > 0 ) {
       echo "
         <script>
-          alert('Data Berhasil Ditambahkan!');
+          alert('Pesan Berhasil Masuk!');
           document.location.href = 'bantuan.php';
 
         </script>
@@ -18,7 +18,7 @@ if( isset($_POST["submit"])){
    } else {
       echo "
       <script>
-          alert('Data gagal!');
+          alert('Pesan gagal!');
           document.location.href = 'bantuan.php';
 
         </script>

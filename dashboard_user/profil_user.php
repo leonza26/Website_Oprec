@@ -1,3 +1,12 @@
+<?php 
+
+require "../functions.php";
+
+
+?>
+
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -16,7 +25,7 @@
 
   <nav class="navbar bg-body-tertiary shadow py-3">
   <div class="container-fluid">
-    <a class="navbar-brand ms-3" href="index.php" style="color: #db881a;">
+    <a class="navbar-brand ms-3" href="../index.php" style="color: #db881a;">
       <img class="me-2" src="../img/logo.png" alt="Logo" width="40" height="34" class="d-inline-block align-text-top" style="background-color: #db881a;">
       Adidaya Group
     </a>
@@ -26,7 +35,13 @@
     <i class="bi bi-person-fill" style="font-size: 1.2rem;"></i>
     </button>
     <ul class="dropdown-menu dropdown-menu-lg-end">
-        <li><button class="dropdown-item" type="button"><i class="bi bi-box-arrow-left me-2"></i>Logout</button></li>
+        <li>
+            <a class="dropdown-item no-link-style" href="../auth/login.php">
+                <button class="dropdown-item" type="button"><i class="bi bi-box-arrow-left me-2"></i>Logout
+                </button>
+                </a>
+            </li>
+    
     </ul>
     </div>
 

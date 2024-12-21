@@ -1,3 +1,13 @@
+<?php
+
+require "../functions.php";
+
+
+$profil_admin = query("SELECT * FROM tb_user");
+
+?>
+
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -109,13 +119,16 @@
                 <thead>
                     <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Cabang</th>
-                    <th scope="col">Kota</th>
+                    <th scope="col">Nama Lengkap</th>
+                    <th scope="col">Tempat & Tanggal Lahir</th>
+                    <th scope="col">Agama</th>
+                    <th scope="col">No Handphone</th>
+                    <th scope="col">Jenis Kelamin</th>
                     <th scope="col">Alamat</th>
-                    <th scope="col">Contact Person</th>
                     </tr>
                 </thead>
                 <tbody>
+
                     <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>
@@ -123,20 +136,8 @@
                     <td>@mdo</td>
                     <td>@mdo</td>
                     </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Larry the Bird</td>
-                    <td>@twitter</td>
-                    <td>@twitter</td>
-                    <td>@mdo</td>
-                    </tr>
+
+
                 </tbody>
                 </table>
             </div>

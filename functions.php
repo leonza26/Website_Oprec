@@ -91,5 +91,508 @@ function registrasi($data){
 }
 
 
+function form_pendaftaran($data_form){
+    // ambil data dari form sesuai name di label
+    global $conn;   
+    $nama_lengkap = htmlspecialchars($data_form["nama_lengkap"]);
+    $alamat_email = htmlspecialchars($data_form["alamat_email"]);   
+    $tempat_tanggallahir = htmlspecialchars($data_form["tempat_tanggallahir"]);
+    $tinggi_badan = htmlspecialchars($data_form["tinggi_badan"]);
+    $berat_badan = htmlspecialchars($data_form["berat_badan"]);
+    $jenis_kelamin = htmlspecialchars($data_form["jenis_kelamin"]);
+    $usia = htmlspecialchars($data_form["usia"]);
+    $golongan_darah = htmlspecialchars($data_form["golongan_darah"]);
+    $no_hp = htmlspecialchars($data_form["no_hp"]);
+    $status_pekerjaan = htmlspecialchars($data_form["status_pekerjaan"]);
+    $posisi_dilamar = htmlspecialchars($data_form["posisi_dilamar"]);
+    $alamat = htmlspecialchars($data_form["alamat"]);
+    $nik = htmlspecialchars($data_form["nik"]);
+    $tamatan = htmlspecialchars($data_form["tamatan"]);
+    $universitas_sekolah = htmlspecialchars($data_form["universitas_sekolah"]);
+    $jurusan = htmlspecialchars($data_form["jurusan"]);
+    $bpjs = htmlspecialchars($data_form["bpjs"]);
+    $npwp = htmlspecialchars($data_form["npwp"]);
+    $status = htmlspecialchars($data_form["status"]);
+
+
+    $surat_lamaran = lamaran(); 
+    if(!$surat_lamaran){
+        return false;
+
+    }
+    $cv = cv(); 
+    if(!$cv){
+        return false;
+
+    }
+
+    $ijazah = ijazah(); 
+    if(!$ijazah){
+        return false;
+
+    }
+
+    $transkrip_nilai = transkrip(); 
+    if(!$transkrip_nilai){
+        return false;
+
+    }
+
+    $pas_foto = pas_photo(); 
+    if(!$pas_foto){
+        return false;
+
+    }
+
+    $sertifikat_keahlian = sertifikat_keahlian(); 
+    if(!$sertifikat_keahlian){
+        return false;
+
+    }
+
+    $ktp = ktp(); 
+    if(!$ktp){
+        return false;
+
+    }
+
+
+    //tambah kan data ke database menggunakan query
+    $query =  "INSERT INTO tb_form_pendaftaran VALUES 
+              ('', '$nama_lengkap', '$alamat_email', '$tempat_tanggallahir', '$tinggi_badan', '$berat_badan', '$jenis_kelamin', '$usia', '$golongan_darah', '$no_hp', '$status_pekerjaan', '$posisi_dilamar', '$alamat', '$nik', '$tamatan', '$universitas_sekolah', '$jurusan', ' $bpjs', '$npwp', '$status', '$surat_lamaran', '$cv', '$ijazah', '$transkrip_nilai', '$pas_foto', '$sertifikat_keahlian', '$ktp')";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+
+}
+
+
+function lamaran(){
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+
+    // apakah tidak ada file yang diupload
+    if($error === 4){
+        echo "
+            <script>
+                alert('pilih file terlebih dahulu!');
+            </script>
+        ";
+        return false;
+    }
+
+    // cek apakah file yang diupload adalah gambar
+
+    // format gambar
+    $ekstensiFileValid = ['pdf'];
+
+    // explode mengubah string menjadi array
+    $ekstensiFile = explode('.', $namaFile);
+
+    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
+    $ekstensiFile = strtolower(end($ekstensiFile));
+
+    // in_array() mengecek apakah ada string di dalam array
+    if( !in_array($ekstensiFile, $ekstensiFileValid)){
+       echo "
+            <script>
+                alert('file yang anda pilih tidak PDF');
+            </script>
+        ";
+        return false;
+    }
+
+
+    // cek jika ukuran gambar melebihi kapasitas
+    if($ukuranFile > 1000000){
+        echo "
+            <script>
+                alert('Ukuran File Terlalu Besar');
+            </script>
+        ";
+        return false;
+    }
+
+    // masukkan gambar yang diupload ke dalam folder gambar
+    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
+    
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFile;
+    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
+
+    return $namaFileBaru;
+
+}
+
+
+function cv(){
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+
+    // apakah tidak ada file yang diupload
+    if($error === 4){
+        echo "
+            <script>
+                alert('pilih file terlebih dahulu!');
+            </script>
+        ";
+        return false;
+    }
+
+    // cek apakah file yang diupload adalah gambar
+
+    // format gambar
+    $ekstensiFileValid = ['pdf'];
+
+    // explode mengubah string menjadi array
+    $ekstensiFile = explode('.', $namaFile);
+
+    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
+    $ekstensiFile = strtolower(end($ekstensiFile));
+
+    // in_array() mengecek apakah ada string di dalam array
+    if( !in_array($ekstensiFile, $ekstensiFileValid)){
+       echo "
+            <script>
+                alert('file yang anda pilih tidak PDF');
+            </script>
+        ";
+        return false;
+    }
+
+
+    // cek jika ukuran gambar melebihi kapasitas
+    if($ukuranFile > 1000000){
+        echo "
+            <script>
+                alert('Ukuran File Terlalu Besar');
+            </script>
+        ";
+        return false;
+    }
+
+    // masukkan gambar yang diupload ke dalam folder gambar
+    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
+    
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFile;
+    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
+
+    return $namaFileBaru;
+
+}
+
+function ijazah(){
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+
+    // apakah tidak ada file yang diupload
+    if($error === 4){
+        echo "
+            <script>
+                alert('pilih file terlebih dahulu!');
+            </script>
+        ";
+        return false;
+    }
+
+    // cek apakah file yang diupload adalah gambar
+
+    // format gambar
+    $ekstensiFileValid = ['pdf'];
+
+    // explode mengubah string menjadi array
+    $ekstensiFile = explode('.', $namaFile);
+
+    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
+    $ekstensiFile = strtolower(end($ekstensiFile));
+
+    // in_array() mengecek apakah ada string di dalam array
+    if( !in_array($ekstensiFile, $ekstensiFileValid)){
+       echo "
+            <script>
+                alert('file yang anda pilih tidak PDF');
+            </script>
+        ";
+        return false;
+    }
+
+
+    // cek jika ukuran gambar melebihi kapasitas
+    if($ukuranFile > 1000000){
+        echo "
+            <script>
+                alert('Ukuran File Terlalu Besar');
+            </script>
+        ";
+        return false;
+    }
+
+    // masukkan gambar yang diupload ke dalam folder gambar
+    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
+    
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFile;
+    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
+
+    return $namaFileBaru;
+
+}
+
+
+function transkrip(){
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+
+    // apakah tidak ada file yang diupload
+    if($error === 4){
+        echo "
+            <script>
+                alert('pilih file terlebih dahulu!');
+            </script>
+        ";
+        return false;
+    }
+
+    // cek apakah file yang diupload adalah gambar
+
+    // format gambar
+    $ekstensiFileValid = ['pdf'];
+
+    // explode mengubah string menjadi array
+    $ekstensiFile = explode('.', $namaFile);
+
+    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
+    $ekstensiFile = strtolower(end($ekstensiFile));
+
+    // in_array() mengecek apakah ada string di dalam array
+    if( !in_array($ekstensiFile, $ekstensiFileValid)){
+       echo "
+            <script>
+                alert('file yang anda pilih tidak PDF');
+            </script>
+        ";
+        return false;
+    }
+
+
+    // cek jika ukuran gambar melebihi kapasitas
+    if($ukuranFile > 1000000){
+        echo "
+            <script>
+                alert('Ukuran File Terlalu Besar');
+            </script>
+        ";
+        return false;
+    }
+
+    // masukkan gambar yang diupload ke dalam folder gambar
+    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
+    
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFile;
+    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
+
+    return $namaFileBaru;
+
+}
+
+function pas_photo(){
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+
+    // apakah tidak ada file yang diupload
+    if($error === 4){
+        echo "
+            <script>
+                alert('pilih file terlebih dahulu!');
+            </script>
+        ";
+        return false;
+    }
+
+    // cek apakah file yang diupload adalah gambar
+
+    // format gambar
+    $ekstensiFileValid = ['pdf'];
+
+    // explode mengubah string menjadi array
+    $ekstensiFile = explode('.', $namaFile);
+
+    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
+    $ekstensiFile = strtolower(end($ekstensiFile));
+
+    // in_array() mengecek apakah ada string di dalam array
+    if( !in_array($ekstensiFile, $ekstensiFileValid)){
+       echo "
+            <script>
+                alert('file yang anda pilih tidak PDF');
+            </script>
+        ";
+        return false;
+    }
+
+
+    // cek jika ukuran gambar melebihi kapasitas
+    if($ukuranFile > 1000000){
+        echo "
+            <script>
+                alert('Ukuran File Terlalu Besar');
+            </script>
+        ";
+        return false;
+    }
+
+    // masukkan gambar yang diupload ke dalam folder gambar
+    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
+    
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFile;
+    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
+
+    return $namaFileBaru;
+
+}
+
+
+function sertifikat_keahlian(){
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+
+    // apakah tidak ada file yang diupload
+    if($error === 4){
+        echo "
+            <script>
+                alert('pilih file terlebih dahulu!');
+            </script>
+        ";
+        return false;
+    }
+
+    // cek apakah file yang diupload adalah gambar
+
+    // format gambar
+    $ekstensiFileValid = ['pdf'];
+
+    // explode mengubah string menjadi array
+    $ekstensiFile = explode('.', $namaFile);
+
+    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
+    $ekstensiFile = strtolower(end($ekstensiFile));
+
+    // in_array() mengecek apakah ada string di dalam array
+    if( !in_array($ekstensiFile, $ekstensiFileValid)){
+       echo "
+            <script>
+                alert('file yang anda pilih tidak PDF');
+            </script>
+        ";
+        return false;
+    }
+
+
+    // cek jika ukuran gambar melebihi kapasitas
+    if($ukuranFile > 1000000){
+        echo "
+            <script>
+                alert('Ukuran File Terlalu Besar');
+            </script>
+        ";
+        return false;
+    }
+
+    // masukkan gambar yang diupload ke dalam folder gambar
+    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
+    
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFile;
+    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
+
+    return $namaFileBaru;
+
+}
+
+
+function ktp(){
+    $namaFile = $_FILES['gambar']['name'];
+    $ukuranFile = $_FILES['gambar']['size'];
+    $error = $_FILES['gambar']['error'];
+    $tmpName = $_FILES['gambar']['tmp_name'];
+
+    // apakah tidak ada file yang diupload
+    if($error === 4){
+        echo "
+            <script>
+                alert('pilih file terlebih dahulu!');
+            </script>
+        ";
+        return false;
+    }
+
+    // cek apakah file yang diupload adalah gambar
+
+    // format gambar
+    $ekstensiFileValid = ['pdf'];
+
+    // explode mengubah string menjadi array
+    $ekstensiFile = explode('.', $namaFile);
+
+    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
+    $ekstensiFile = strtolower(end($ekstensiFile));
+
+    // in_array() mengecek apakah ada string di dalam array
+    if( !in_array($ekstensiFile, $ekstensiFileValid)){
+       echo "
+            <script>
+                alert('file yang anda pilih tidak PDF');
+            </script>
+        ";
+        return false;
+    }
+
+
+    // cek jika ukuran gambar melebihi kapasitas
+    if($ukuranFile > 1000000){
+        echo "
+            <script>
+                alert('Ukuran File Terlalu Besar');
+            </script>
+        ";
+        return false;
+    }
+
+    // masukkan gambar yang diupload ke dalam folder gambar
+    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
+    
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFile;
+    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
+
+    return $namaFileBaru;
+
+}
+
+
+
 ?>
 
