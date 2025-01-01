@@ -1,7 +1,13 @@
 <?php 
+session_start();
 
 require "../functions.php";
 
+// mengembalikan user ke halaman index jika ingin masuk halaman login
+if(!isset($_SESSION["login"])){
+    header('Location: ../auth/login.php');
+    exit;
+  }
 
 // membuat logika agar setelah submit data masuk
 if( isset($_POST["submit"])){
@@ -71,10 +77,15 @@ if( isset($_POST["submit"])){
     
     <div class="btn-group">
     <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="background-color: #db881a; color:white;">
-    <i class="bi bi-person-fill" style="font-size: 1.2rem;"></i>
-    </button>
+    <i class="bi bi-person-fill" style="font-size: 1.2rem;"></i></button>
     <ul class="dropdown-menu dropdown-menu-lg-end">
-        <li><button class="dropdown-item" type="button"><i class="bi bi-box-arrow-left me-2"></i>Logout</button></li>
+        <li>
+            <a class="dropdown-item no-link-style" href="../auth/logout.php">
+                <button class="dropdown-item" type="button"><i class="bi bi-box-arrow-left me-2"></i>Logout
+                </button>
+                </a>
+            </li>
+    
     </ul>
     </div>
 
@@ -147,8 +158,8 @@ if( isset($_POST["submit"])){
                     <label for="inputJenisKelamin" class="form-label">Jenis Kelamin</label>
                     <select class="form-select" name="jenis_kelamin" aria-label="Default select example" id="inputJeniskelamin" required>
                         <option selected>Open this select menu</option>
-                        <option value="1">Laki-laki</option>
-                        <option value="2">Perempuan</option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
                     </select>
                     </div>
 
@@ -173,8 +184,8 @@ if( isset($_POST["submit"])){
                         <label for="inputStatusPekerjaan" class="form-label">Status Pekerjaan Saat Ini</label>
                         <select class="form-select" name="status_pekerjaan" aria-label="Default select example" id="inputStatusPekerjaan" required>
                         <option selected>Open this select menu</option>
-                        <option value="1">Sudah Bekerja</option>
-                        <option value="2">Belum Bekerja</option>
+                        <option value="Sudah Bekerja">Sudah Bekerja</option>
+                        <option value="Belum Bekerja">Belum Bekerja</option>
                     </select>
                     </div>
 
@@ -182,11 +193,11 @@ if( isset($_POST["submit"])){
                     <label for="inputJeniskelamin" class="form-label">Posisi Yang Dilamar</label>
                     <select class="form-select" name="posisi_dilamar" aria-label="Default select example" id="inputJeniskelamin" required>
                         <option selected>Open this select menu</option>
-                        <option value="1">Staff Office</option>
-                        <option value="2">MEP Elektrical</option>
-                        <option value="3">IT Support</option>
-                        <option value="4">Staff Programmer</option>
-                        <option value="5">Admin Entry Data</option>
+                        <option value="Staff Office">Staff Office</option>
+                        <option value="MEP Elektrical">MEP Elektrical</option>
+                        <option value="IT Support">IT Support</option>
+                        <option value="Staff Programmer">Staff Programmer</option>
+                        <option value="Admin Entry Data">Admin Entry Data</option>
                     </select>
                     </div>
                     
@@ -206,10 +217,10 @@ if( isset($_POST["submit"])){
                     <div class="col-md-4">
                         <label for="inputTamatan" class="form-label">Tamatan</label>
                         <select class="form-select" name="tamatan" aria-label="Default select example" id="inputTamatan" required>
-                        <option value="1">SMA/SMK</option>
-                        <option value="2">D3</option>
-                        <option value="3">S1/D4</option>
-                        <option value="4">S2</option>
+                        <option value="SMA/SMK">SMA/SMK</option>
+                        <option value="D3">D3</option>
+                        <option value="S1/D4">S1/D4</option>
+                        <option value="S2">S2</option>
                     </select>
                     </div>
 
@@ -236,8 +247,8 @@ if( isset($_POST["submit"])){
                     <label for="inputJeniskelamin" class="form-label">Status</label>
                     <select class="form-select" name="status" aria-label="Default select example" id="inputJeniskelamin" required>
                         <option selected>Select</option>
-                        <option value="1">Sudah Menikah</option>
-                        <option value="2">Belum Menikah</option>
+                        <option value="Sudah Menikah">Sudah Menikah</option>
+                        <option value="Belum Menikah">Belum Menikah</option>
                     </select>
                     </div>
                

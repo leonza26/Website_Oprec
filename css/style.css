@@ -10,6 +10,14 @@ nav {
     color: white;
 }
 
+.loader {
+  width: 35px;
+  position: absolute;
+  right: 235px;
+  top: 83px;
+  display: none;
+}
+
 
 .navbar-brand {
     color: white;
@@ -34,3 +42,4 @@ p {
 .harvel {
   margin-top: 100px;
 }
+

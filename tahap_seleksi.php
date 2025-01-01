@@ -63,7 +63,7 @@
     <div class="row mx-md">
 
         <div class="col pt-5">
-        <div class="card border-warning" style="width: 25rem; justify-content: center">
+        <div class="card border-warning" style="width: 20rem; justify-content: center">
             <img src="img/1.jpg" class="card-img-top" alt="1">
             <div class="card-body">
                 <h5 class="card-title">1. Seleksi Administrasi</h5>
@@ -73,7 +73,7 @@
         </div>
 
         <div class="col pt-5">
-        <div class="card border-warning" style="width: 25rem;">
+        <div class="card border-warning" style="width: 20rem;">
             <img src="img/tes1.jpg" class="card-img-top" alt="tes1">
             <div class="card-body">
                 <h5 class="card-title">2. Tes Potensi Dasar</h5>
@@ -83,7 +83,7 @@
         </div>
 
         <div class="col pt-5">
-        <div class="card border-warning" style="width: 25rem;">
+        <div class="card border-warning" style="width: 20rem;">
             <img src="img/tes2.jpg" class="card-img-top" alt="tes2">
             <div class="card-body">
                 <h5 class="card-title">3. Tes Potensi Umum</h5>
@@ -95,7 +95,7 @@
 
     <div class="row mb-5 mx-md">
       <div class="col pt-5">
-          <div class="card border-warning" style="width: 25rem;">
+          <div class="card border-warning" style="width: 20rem;">
               <img src="img/3.jpg" class="card-img-top" alt="tes3">
               <div class="card-body">
                   <h5 class="card-title">4. Tes Bahasa Inggris</h5>
@@ -106,7 +106,7 @@
    
 
         <div class="col pt-5">
-          <div class="card border-warning" style="width: 25rem;">
+          <div class="card border-warning" style="width: 20rem;">
               <img src="img/tes3.jpg" class="card-img-top" alt="tes3">
               <div class="card-body">
                   <h5 class="card-title">5. Tes Kesehatan</h5>
@@ -116,11 +116,11 @@
           </div>
 
           <div class="col pt-5">
-          <div class="card border-warning" style="width: 25rem;">
+          <div class="card border-warning" style="width: 20rem;">
               <img src="img/4.jpg" class="card-img-top" alt="4">
               <div class="card-body">
                   <h5 class="card-title">6. Wawancara</h5>
-                  <p class="card-text">Tahap akhir seleksi, berupa percakapan antara calon karyawan dengan perusahaan untuk menilai kesesuaian calon dengan budaya perusahaan, motivasi, dan kemampuan berkomunikasi</p>
+                  <p class="card-text">Tahap akhir seleksi, berupa percakapan antara calon karyawan dengan perusahaan untuk menilai kesesuaian calon dengan budaya perusahaan, motivasi.</p>
               </div>
               </div>
           </div>

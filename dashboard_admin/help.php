@@ -1,7 +1,14 @@
 <?php 
+session_start();
 
 require "../functions.php";
 
+
+// mengembalikan user ke halaman index jika ingin masuk halaman login
+if(!isset($_SESSION["login"])){
+    header('Location: ../auth/login.php');
+    exit;
+  }
 
 $bantuan = query("SELECT * FROM tb_bantuan");
 
@@ -37,7 +44,13 @@ $bantuan = query("SELECT * FROM tb_bantuan");
     <i class="bi bi-person-fill" style="font-size: 1.2rem;"></i>
     </button>
     <ul class="dropdown-menu dropdown-menu-lg-end">
-        <li><button class="dropdown-item" type="button"><i class="bi bi-box-arrow-left me-2"></i>Logout</button></li>
+        <li>
+            <a class="dropdown-item no-link-style" href="../auth/logout.php">
+                <button class="dropdown-item" type="button"><i class="bi bi-box-arrow-left me-2"></i>Logout
+                </button>
+                </a>
+            </li>
+    
     </ul>
     </div>
 

@@ -38,25 +38,14 @@ function registrasi($data){
     // strtolower mengubah string menjadi huruf kecil
     // stripslashes agar simbolslashes tidak diinputkan
     $username = strtolower(stripslashes($data["username"]));
-    $namaLengkap = strtolower($data["namaLengkap"]);
-    $ttl = strtolower($data["ttl"]);
-    $agama = strtolower($data["agama"]);
-    $no_handphone = strtolower($data["no_handphone"]);
-    $gender = strtolower($data["gender"]);
-    $alamat = strtolower($data["alamat"]);
     $email = strtolower($data["email"]);
-    $nik = strtolower($data["nik"]);
-    $bpjs = strtolower($data["bpjs"]);
-    $npwp = strtolower($data["npwp"]);
-    $status = strtolower($data["status"]);
-  
     // agar password di tb_users ada petik dua pemisah password
     $password = mysqli_real_escape_string($conn, $data["password1"]);
     $password2 = mysqli_real_escape_string($conn, $data["password2"]);
 
 
     // cek apakah username sudah ada sebelumnya apa belum 
-    $result = mysqli_query($conn, "SELECT username FROM tb_users WHERE username = '$username'");
+    $result = mysqli_query($conn, "SELECT username FROM tb_register WHERE username = '$username'");
 
     if(mysqli_fetch_assoc($result)){
         echo "
@@ -84,7 +73,7 @@ function registrasi($data){
 
     // tambahkan user baru ke database
 
-    mysqli_query($conn, "INSERT INTO tb_users VALUES('', '$username', '$namaLengkap', '$ttl', '$agama', '$no_handphone', '$gender', '$alamat', '$email', '$nik', '$bpjs', '$npwp', '$status', '$password')");
+    mysqli_query($conn, "INSERT INTO tb_register VALUES('', '$username', '$email', '$password')");
 
     return mysqli_affected_rows($conn);
 
@@ -114,47 +103,15 @@ function form_pendaftaran($data_form){
     $npwp = htmlspecialchars($data_form["npwp"]);
     $status = htmlspecialchars($data_form["status"]);
 
-
-    $surat_lamaran = lamaran(); 
-    if(!$surat_lamaran){
-        return false;
-
-    }
-    $cv = cv(); 
-    if(!$cv){
-        return false;
-
-    }
-
-    $ijazah = ijazah(); 
-    if(!$ijazah){
-        return false;
-
-    }
-
-    $transkrip_nilai = transkrip(); 
-    if(!$transkrip_nilai){
-        return false;
-
-    }
-
-    $pas_foto = pas_photo(); 
-    if(!$pas_foto){
-        return false;
-
-    }
-
-    $sertifikat_keahlian = sertifikat_keahlian(); 
-    if(!$sertifikat_keahlian){
-        return false;
-
-    }
-
-    $ktp = ktp(); 
-    if(!$ktp){
-        return false;
-
-    }
+// file
+    $surat_lamaran = htmlspecialchars($data_form["surat_lamaran"]);
+    $cv = htmlspecialchars($data_form["cv"]); 
+    $ijazah = htmlspecialchars($data_form["ijazah"]); 
+    $transkrip_nilai = htmlspecialchars($data_form["transkrip_nilai"]);
+    $pas_foto = htmlspecialchars($data_form["pas_foto"]); 
+    $sertifikat_keahlian = htmlspecialchars($data_form["sertifikat_keahlian"]);
+    $ktp = htmlspecialchars($data_form["ktp"]);
+   
 
 
     //tambah kan data ke database menggunakan query
@@ -168,431 +125,57 @@ function form_pendaftaran($data_form){
 }
 
 
-function lamaran(){
-    $namaFile = $_FILES['gambar']['name'];
-    $ukuranFile = $_FILES['gambar']['size'];
-    $error = $_FILES['gambar']['error'];
-    $tmpName = $_FILES['gambar']['tmp_name'];
-
-    // apakah tidak ada file yang diupload
-    if($error === 4){
-        echo "
-            <script>
-                alert('pilih file terlebih dahulu!');
-            </script>
-        ";
-        return false;
-    }
-
-    // cek apakah file yang diupload adalah gambar
-
-    // format gambar
-    $ekstensiFileValid = ['pdf'];
-
-    // explode mengubah string menjadi array
-    $ekstensiFile = explode('.', $namaFile);
-
-    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
-    $ekstensiFile = strtolower(end($ekstensiFile));
-
-    // in_array() mengecek apakah ada string di dalam array
-    if( !in_array($ekstensiFile, $ekstensiFileValid)){
-       echo "
-            <script>
-                alert('file yang anda pilih tidak PDF');
-            </script>
-        ";
-        return false;
-    }
-
-
-    // cek jika ukuran gambar melebihi kapasitas
-    if($ukuranFile > 1000000){
-        echo "
-            <script>
-                alert('Ukuran File Terlalu Besar');
-            </script>
-        ";
-        return false;
-    }
-
-    // masukkan gambar yang diupload ke dalam folder gambar
-    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
+function hapus($id){
+    global $conn;
     
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiFile;
-    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
+    $query =  "DELETE FROM tb_form_pendaftaran WHERE id = $id";
 
-    return $namaFileBaru;
+    mysqli_query($conn, $query);
+    
+    return mysqli_affected_rows($conn);
 
 }
 
+function tambah_user($data){
+    global $conn;
 
-function cv(){
-    $namaFile = $_FILES['gambar']['name'];
-    $ukuranFile = $_FILES['gambar']['size'];
-    $error = $_FILES['gambar']['error'];
-    $tmpName = $_FILES['gambar']['tmp_name'];
-
-    // apakah tidak ada file yang diupload
-    if($error === 4){
-        echo "
-            <script>
-                alert('pilih file terlebih dahulu!');
-            </script>
-        ";
-        return false;
-    }
-
-    // cek apakah file yang diupload adalah gambar
-
-    // format gambar
-    $ekstensiFileValid = ['pdf'];
-
-    // explode mengubah string menjadi array
-    $ekstensiFile = explode('.', $namaFile);
-
-    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
-    $ekstensiFile = strtolower(end($ekstensiFile));
-
-    // in_array() mengecek apakah ada string di dalam array
-    if( !in_array($ekstensiFile, $ekstensiFileValid)){
-       echo "
-            <script>
-                alert('file yang anda pilih tidak PDF');
-            </script>
-        ";
-        return false;
-    }
+    // mengambil data dari inputan form
+    // strtolower mengubah string menjadi huruf kecil
+    // stripslashes agar simbolslashes tidak diinputkan
+    $username = htmlspecialchars($data["username"]);
+    $namaLengkap = htmlspecialchars($data["namaLengkap"]);
+    $ttl = htmlspecialchars($data["ttl"]);
+    $agama = htmlspecialchars($data["agama"]);
+    $no_handphone = htmlspecialchars($data["no_handphone"]);
+    $gender = htmlspecialchars($data["gender"]);
+    $alamat = htmlspecialchars($data["alamat"]);
+    $email = htmlspecialchars($data["email"]);
+    $nik = htmlspecialchars($data["nik"]);
+    $bpjs = htmlspecialchars($data["bpjs"]);
+    $npwp = htmlspecialchars($data["npwp"]);
+    $status = htmlspecialchars($data["status"]);
 
 
-    // cek jika ukuran gambar melebihi kapasitas
-    if($ukuranFile > 1000000){
-        echo "
-            <script>
-                alert('Ukuran File Terlalu Besar');
-            </script>
-        ";
-        return false;
-    }
+    mysqli_query($conn, "INSERT INTO tb_users VALUES('', '$username', '$namaLengkap', '$ttl', '$agama', '$no_handphone', '$gender', '$alamat', '$email', '$nik', '$bpjs', '$npwp', '$status')");
 
-    // masukkan gambar yang diupload ke dalam folder gambar
-    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
-    
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiFile;
-    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
-
-    return $namaFileBaru;
+    return mysqli_affected_rows($conn);
 
 }
 
-function ijazah(){
-    $namaFile = $_FILES['gambar']['name'];
-    $ukuranFile = $_FILES['gambar']['size'];
-    $error = $_FILES['gambar']['error'];
-    $tmpName = $_FILES['gambar']['tmp_name'];
+function admin($data){
+    global $conn;
 
-    // apakah tidak ada file yang diupload
-    if($error === 4){
-        echo "
-            <script>
-                alert('pilih file terlebih dahulu!');
-            </script>
-        ";
-        return false;
-    }
+    $namaLengkap = htmlspecialchars($data["namaLengkap"]);
+    $ttl = htmlspecialchars($data["ttl"]);
+    $agama = htmlspecialchars($data["agama"]);
+    $no_handphone = htmlspecialchars($data["no_handphone"]);
+    $gender = htmlspecialchars($data["gender"]);
+    $alamat = htmlspecialchars($data["alamat"]);
 
-    // cek apakah file yang diupload adalah gambar
+    mysqli_query($conn, "INSERT INTO tb_admin VALUES('', '$namaLengkap', '$ttl', '$agama', '$no_handphone', '$gender', '$alamat')");
 
-    // format gambar
-    $ekstensiFileValid = ['pdf'];
-
-    // explode mengubah string menjadi array
-    $ekstensiFile = explode('.', $namaFile);
-
-    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
-    $ekstensiFile = strtolower(end($ekstensiFile));
-
-    // in_array() mengecek apakah ada string di dalam array
-    if( !in_array($ekstensiFile, $ekstensiFileValid)){
-       echo "
-            <script>
-                alert('file yang anda pilih tidak PDF');
-            </script>
-        ";
-        return false;
-    }
-
-
-    // cek jika ukuran gambar melebihi kapasitas
-    if($ukuranFile > 1000000){
-        echo "
-            <script>
-                alert('Ukuran File Terlalu Besar');
-            </script>
-        ";
-        return false;
-    }
-
-    // masukkan gambar yang diupload ke dalam folder gambar
-    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
-    
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiFile;
-    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
-
-    return $namaFileBaru;
-
+    return mysqli_affected_rows($conn);
 }
-
-
-function transkrip(){
-    $namaFile = $_FILES['gambar']['name'];
-    $ukuranFile = $_FILES['gambar']['size'];
-    $error = $_FILES['gambar']['error'];
-    $tmpName = $_FILES['gambar']['tmp_name'];
-
-    // apakah tidak ada file yang diupload
-    if($error === 4){
-        echo "
-            <script>
-                alert('pilih file terlebih dahulu!');
-            </script>
-        ";
-        return false;
-    }
-
-    // cek apakah file yang diupload adalah gambar
-
-    // format gambar
-    $ekstensiFileValid = ['pdf'];
-
-    // explode mengubah string menjadi array
-    $ekstensiFile = explode('.', $namaFile);
-
-    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
-    $ekstensiFile = strtolower(end($ekstensiFile));
-
-    // in_array() mengecek apakah ada string di dalam array
-    if( !in_array($ekstensiFile, $ekstensiFileValid)){
-       echo "
-            <script>
-                alert('file yang anda pilih tidak PDF');
-            </script>
-        ";
-        return false;
-    }
-
-
-    // cek jika ukuran gambar melebihi kapasitas
-    if($ukuranFile > 1000000){
-        echo "
-            <script>
-                alert('Ukuran File Terlalu Besar');
-            </script>
-        ";
-        return false;
-    }
-
-    // masukkan gambar yang diupload ke dalam folder gambar
-    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
-    
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiFile;
-    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
-
-    return $namaFileBaru;
-
-}
-
-function pas_photo(){
-    $namaFile = $_FILES['gambar']['name'];
-    $ukuranFile = $_FILES['gambar']['size'];
-    $error = $_FILES['gambar']['error'];
-    $tmpName = $_FILES['gambar']['tmp_name'];
-
-    // apakah tidak ada file yang diupload
-    if($error === 4){
-        echo "
-            <script>
-                alert('pilih file terlebih dahulu!');
-            </script>
-        ";
-        return false;
-    }
-
-    // cek apakah file yang diupload adalah gambar
-
-    // format gambar
-    $ekstensiFileValid = ['pdf'];
-
-    // explode mengubah string menjadi array
-    $ekstensiFile = explode('.', $namaFile);
-
-    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
-    $ekstensiFile = strtolower(end($ekstensiFile));
-
-    // in_array() mengecek apakah ada string di dalam array
-    if( !in_array($ekstensiFile, $ekstensiFileValid)){
-       echo "
-            <script>
-                alert('file yang anda pilih tidak PDF');
-            </script>
-        ";
-        return false;
-    }
-
-
-    // cek jika ukuran gambar melebihi kapasitas
-    if($ukuranFile > 1000000){
-        echo "
-            <script>
-                alert('Ukuran File Terlalu Besar');
-            </script>
-        ";
-        return false;
-    }
-
-    // masukkan gambar yang diupload ke dalam folder gambar
-    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
-    
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiFile;
-    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
-
-    return $namaFileBaru;
-
-}
-
-
-function sertifikat_keahlian(){
-    $namaFile = $_FILES['gambar']['name'];
-    $ukuranFile = $_FILES['gambar']['size'];
-    $error = $_FILES['gambar']['error'];
-    $tmpName = $_FILES['gambar']['tmp_name'];
-
-    // apakah tidak ada file yang diupload
-    if($error === 4){
-        echo "
-            <script>
-                alert('pilih file terlebih dahulu!');
-            </script>
-        ";
-        return false;
-    }
-
-    // cek apakah file yang diupload adalah gambar
-
-    // format gambar
-    $ekstensiFileValid = ['pdf'];
-
-    // explode mengubah string menjadi array
-    $ekstensiFile = explode('.', $namaFile);
-
-    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
-    $ekstensiFile = strtolower(end($ekstensiFile));
-
-    // in_array() mengecek apakah ada string di dalam array
-    if( !in_array($ekstensiFile, $ekstensiFileValid)){
-       echo "
-            <script>
-                alert('file yang anda pilih tidak PDF');
-            </script>
-        ";
-        return false;
-    }
-
-
-    // cek jika ukuran gambar melebihi kapasitas
-    if($ukuranFile > 1000000){
-        echo "
-            <script>
-                alert('Ukuran File Terlalu Besar');
-            </script>
-        ";
-        return false;
-    }
-
-    // masukkan gambar yang diupload ke dalam folder gambar
-    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
-    
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiFile;
-    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
-
-    return $namaFileBaru;
-
-}
-
-
-function ktp(){
-    $namaFile = $_FILES['gambar']['name'];
-    $ukuranFile = $_FILES['gambar']['size'];
-    $error = $_FILES['gambar']['error'];
-    $tmpName = $_FILES['gambar']['tmp_name'];
-
-    // apakah tidak ada file yang diupload
-    if($error === 4){
-        echo "
-            <script>
-                alert('pilih file terlebih dahulu!');
-            </script>
-        ";
-        return false;
-    }
-
-    // cek apakah file yang diupload adalah gambar
-
-    // format gambar
-    $ekstensiFileValid = ['pdf'];
-
-    // explode mengubah string menjadi array
-    $ekstensiFile = explode('.', $namaFile);
-
-    // end() mengambil array dari nilai yang paling akhir strtolower() mengambil format nilai dengan huruf kecil
-    $ekstensiFile = strtolower(end($ekstensiFile));
-
-    // in_array() mengecek apakah ada string di dalam array
-    if( !in_array($ekstensiFile, $ekstensiFileValid)){
-       echo "
-            <script>
-                alert('file yang anda pilih tidak PDF');
-            </script>
-        ";
-        return false;
-    }
-
-
-    // cek jika ukuran gambar melebihi kapasitas
-    if($ukuranFile > 1000000){
-        echo "
-            <script>
-                alert('Ukuran File Terlalu Besar');
-            </script>
-        ";
-        return false;
-    }
-
-    // masukkan gambar yang diupload ke dalam folder gambar
-    // membuat random nama gambar agar tidak ketimpa dengan gambar dengan nama file yg sama
-    
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiFile;
-    move_uploaded_file($tmpName, '../file/' . $namaFileBaru);
-
-    return $namaFileBaru;
-
-}
-
-
 
 ?>
 

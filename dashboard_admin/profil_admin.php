@@ -1,9 +1,40 @@
 <?php
 
+session_start();
+
 require "../functions.php";
 
+// mengembalikan user ke halaman index jika ingin masuk halaman login
+if(!isset($_SESSION["login"])){
+    header('Location: ../auth/login.php');
+    exit;
+  }
 
-$profil_admin = query("SELECT * FROM tb_user");
+$profil_admin = query("SELECT * FROM tb_admin");
+
+// membuat logika agar setelah submit data masuk
+if( isset($_POST["submit"])){
+  
+    // menegecek apakah data berhasil di tambahkan ke database
+     if ( admin($_POST) > 0 ) {
+        echo "
+          <script>
+            alert('Data Berhasil Masuk!');
+            document.location.href = 'profil_admin.php';
+  
+          </script>
+        ";
+     } else {
+        echo "
+        <script>
+            alert('Data gagal!');
+            document.location.href = 'profil_admin.php';
+  
+          </script>
+          ";
+      }
+  
+  }
 
 ?>
 
@@ -36,7 +67,13 @@ $profil_admin = query("SELECT * FROM tb_user");
     <i class="bi bi-person-fill" style="font-size: 1.2rem;"></i>
     </button>
     <ul class="dropdown-menu dropdown-menu-lg-end">
-        <li><button class="dropdown-item" type="button"><i class="bi bi-box-arrow-left me-2"></i>Logout</button></li>
+        <li>
+            <a class="dropdown-item no-link-style" href="../auth/logout.php">
+                <button class="dropdown-item" type="button"><i class="bi bi-box-arrow-left me-2"></i>Logout
+                </button>
+                </a>
+            </li>
+    
     </ul>
     </div>
     
@@ -75,40 +112,41 @@ $profil_admin = query("SELECT * FROM tb_user");
 
             <div class="container mt-3 rounded-4 shadow py-3" style="background-color: white;">
                 <h2>Profile Admin</h2>
-                    <form class="row g-3 mt-3">
+
+                    <form class="row g-3 mt-3" action="" method="POST">
                     <div class="col-md-6">
                         <label for="inputNama" class="form-label">Nama Lengkap</label>
-                        <input type="text" class="form-control" id="inputNama">
+                        <input type="text" name="namaLengkap" class="form-control" id="inputNama">
                     </div>
                     <div class="col-md-6">
                         <label for="inputUsername" class="form-label">Tempat & Tanggal Lahir</label>
-                        <input type="date" class="form-control" id="inputUsername">
+                        <input type="date" name="ttl" class="form-control" id="inputUsername">
                     </div>
 
                     <div class="col-md-4">
                         <label for="inputAgama" class="form-label">Agama</label>
-                        <input type="text" class="form-control" id="inputAgama">
+                        <input type="text" name="agama" class="form-control" id="inputAgama">
                     </div>
                     <div class="col-md-4">
                         <label for="inputNumber" class="form-label">No Handphone</label>
-                        <input type="number" class="form-control" id="inputNumber">
+                        <input type="number" name="no_handphone" class="form-control" id="inputNumber">
                     </div>
                     <div class="col-md-4">
                     <label for="inputJeniskelamin" class="form-label">Jenis Kelamin</label>
-                    <select class="form-select" aria-label="Default select example" id="inputJeniskelamin">
+                    <select class="form-select" name="gender" aria-label="Default select example" id="inputJeniskelamin">
                         <option selected>Open this select menu</option>
-                        <option value="1">Laki-laki</option>
-                        <option value="2">Perempuan</option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
                     </select>
                     </div>
                     
                     <div class="col-12">
                         <label for="inputAddress" class="form-label">Alamat</label>
-                        <textarea class="form-control" id="inputAddress" rows="3"></textarea>
+                        <textarea class="form-control" name="alamat" id="inputAddress" rows="3"></textarea>
                     </div>
                 
                     <div class="col-12">
-                        <button type="submit" class="btn btn-dark mt-3 mb-5"><i class="bi bi-pencil-square me-2"></i>Ubah</button>
+                        <button type="submit" name="submit" class="btn btn-dark mt-3 mb-5"><i class="bi bi-pencil-square me-2"></i>Submit</button>
                     </div>
                 </form>
             </div>
@@ -128,15 +166,19 @@ $profil_admin = query("SELECT * FROM tb_user");
                     </tr>
                 </thead>
                 <tbody>
-
+                <?php $i = 1 ?>
+                <?php foreach($profil_admin  as $pa) : ?>
                     <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>@mdo</td>
+                    <th scope="row"><?= $i ?></th>
+                    <td><?= $pa["nama_lengkap"] ?></td>
+                    <td><?= $pa["ttl"] ?></td>
+                    <td><?= $pa["agama"] ?></td>
+                    <td><?= $pa["no_handphone"] ?></td>
+                    <td><?= $pa["gender"] ?></td>
+                    <td><?= $pa["alamat"] ?></td>
                     </tr>
-
+                <?php $i++ ?>
+                <?php endforeach; ?>
 
                 </tbody>
                 </table>

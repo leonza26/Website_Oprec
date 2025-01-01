@@ -1,7 +1,16 @@
 <?php
 
+session_start();
+
+
 
 require "../functions.php";
+
+// mengembalikan user ke halaman index jika ingin masuk halaman login
+if(isset($_SESSION["login"])){
+  header('Location: ../dashboard_user/profil_user.php');
+  exit;
+}
 
 // cek apakah data berhasil masuk setelah register di tekan
 if ( isset($_POST["register"])){
@@ -52,16 +61,16 @@ if ( isset($_POST["register"])){
             
             <form action="" method="POST"> 
                 <label for="inputUsername" class="form-label">Username</label>
-                <input type="text" name="username" id="inputUsername" placeholder="Masukkan Username Anda" class="form-control">
+                <input type="text" name="username" id="inputUsername" placeholder="Masukkan Username Anda" class="form-control" required>
 
                 <label for="exampleInputEmail1" class="form-label mt-3">Email address</label>
-                <input type="email" name="email" class="form-control" placeholder="Masukkan Email" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="email" name="email" class="form-control" placeholder="Masukkan Email" id="exampleInputEmail1" aria-describedby="emailHelp" required>
 
                 <label for="inputPassword5" class="form-label mt-3">Password</label>
-                <input type="password" id="inputPassword5" name="password1" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Masukkan Kata Sandi Anda">
+                <input type="password" id="inputPassword5" name="password1" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Masukkan Kata Sandi Anda" required>
 
                 <label for="inputPassword5" class="form-label mt-3">Konfirmasi Password</label>
-                <input type="password" id="inputPassword5" name="password2" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Masukkan Kata Sandi Anda">
+                <input type="password" id="inputPassword5" name="password2" class="form-control" aria-describedby="passwordHelpBlock" placeholder="Masukkan Kata Sandi Anda" required>
 
                 <div id="passwordHelpBlock" class="form-text mt-3">
                   Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.

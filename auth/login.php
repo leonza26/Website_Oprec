@@ -1,8 +1,31 @@
 <?php 
 sleep(1);
+session_start();
 require "../functions.php";
 
 
+// cek cookie
+if( isset($_COOKIE['id']) && isset($_COOKIE['key'])){
+  $id = $_COOKIE["id"];
+  $key = $_COOKIE["key"];
+
+  // ambil cookie berdasarkan username
+  $result = mysqli_query($conn, "SELECT * FROM tb_users WHERE id = $id");
+  $row = mysqli_fetch_assoc($result);
+
+  // cek cookie dan username 
+  if ( $key === hash('sha256', $row["username"])){
+    $_SESSION["login"] = true;
+  }
+
+
+}
+
+// mengembalikan user ke halaman index jika ingin masuk halaman login
+if(isset($_SESSION["login"])){
+  header('Location: ../dashboard_user/profil_user.php');
+  exit;
+}
 
 // cek apakah data berhasil masuk setelah login di tekan
 if ( isset($_POST["login"])){
@@ -11,7 +34,7 @@ if ( isset($_POST["login"])){
   $username = $_POST["username"];
   $password = $_POST["password"];
   
-  $result = mysqli_query($conn, "SELECT * FROM tb_users WHERE 
+  $result = mysqli_query($conn, "SELECT * FROM tb_register WHERE 
   username = '$username'");
 
   // cek username 
@@ -21,6 +44,18 @@ if ( isset($_POST["login"])){
       $row = mysqli_fetch_assoc($result);
 
       if( password_verify($password, $row["password"]) ){
+
+          // membuat session agar login dulu baru bisa masuk ke halaman lainnya dan hanya satu sesi
+          $_SESSION["login"] = true;
+
+
+          if (isset($_POST["remember"])){
+            // membuat cookie menggunakan funtions setcookie dan menggunakan id dan username agar tidak bisa dibaca oleh user yang lain untuk melakukan login
+            // setcookie(namacookie, nilai,waktu cookie);
+            setcookie('id', $row['id'], time() +60);
+            setcookie('key', hash('sha256', $row["username"]));
+
+          }
 
           header("Location: ../dashboard_user/profil_user.php");
           exit;
@@ -81,7 +116,7 @@ if ( isset($_POST["login"])){
                   </div>
 
                   <div class="form-check mt-2">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <input class="form-check-input" type="checkbox" name="remember" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">
                       Remember Me
                     </label>

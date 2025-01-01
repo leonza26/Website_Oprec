@@ -25,6 +25,15 @@ p {
     
   }
 
+
+.loader {
+  width: 35px;
+  position: absolute;
+  right: 239px;
+  top: 127px;
+  display: none;
+}
+
 .contenttree {
     background-color: #db881a;
   }

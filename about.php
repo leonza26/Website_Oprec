@@ -57,9 +57,9 @@
 
 <!-- content -->
 
-<div class="container text-center">
+<div class="container text-center" style="margin-top: 30px;">
     <div class="row ">
-      <div class="col-sm mt-5 text-center">
+      <div class="col-sm text-center" style="margin-top: 100px;">
         <img src="img/Adidaya Group.png" class="harvel img-thumbnail border-dark" alt="adidaya">
       </div>
       <div class="col-sm">
